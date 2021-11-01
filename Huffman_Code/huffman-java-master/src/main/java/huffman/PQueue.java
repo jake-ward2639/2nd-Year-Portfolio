@@ -37,7 +37,6 @@ public class PQueue {
                 }
             }
         }
-        System.out.println(queue);
     }
 
     /**
