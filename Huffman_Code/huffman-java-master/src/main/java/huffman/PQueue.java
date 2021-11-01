@@ -1,12 +1,11 @@
 package huffman;
 
 import huffman.tree.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 /**
  * A priority queue of @Node@ objects. Each node has an int as its label representing its frequency.
- * The queue should order objects in ascending order of frequency, i.e. lowest first.
+ * The queue should order objects in ascending order of frequency, i.e. the lowest first.
  */
 public class PQueue {
 
@@ -22,7 +21,23 @@ public class PQueue {
      * @param n The node to enqueue.
      */
     public void enqueue(Node n) {
-        throw new UnsupportedOperationException("Method not implemented");
+        if(queue.isEmpty()){
+            queue.add(n);
+        }
+        else{
+            int initial_size_of_loop = queue.size();
+            for(int i = 0; i < initial_size_of_loop; i++){
+                Node currentNode = queue.get(i);
+                if (n.getFreq() <= currentNode.getFreq()) {
+                    queue.add(i, n);
+                    break;
+                }
+                if (i+1 == initial_size_of_loop){
+                    queue.add(i+1, n);
+                }
+            }
+        }
+        System.out.println(queue);
     }
 
     /**
@@ -30,7 +45,12 @@ public class PQueue {
      * @return  The first node in the queue.
      */
     public Node dequeue() {
-        throw new UnsupportedOperationException("Method not implemented");
+        if(queue.isEmpty()){
+            return null;
+        }
+        Node removedNode = queue.get(0);
+        queue.remove(0);
+        return removedNode;
     }
 
     /**
@@ -38,6 +58,6 @@ public class PQueue {
      * @return  Size of the queue.
      */
     public int size() {
-        throw new UnsupportedOperationException("Method not implemented");
+        return queue.size();
     }
 }
