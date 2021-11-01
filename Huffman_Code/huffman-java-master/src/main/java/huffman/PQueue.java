@@ -22,18 +22,18 @@ public class PQueue {
      */
     public void enqueue(Node n) {
         if(queue.isEmpty()){
-            queue.add(n);
+            queue.add(n); //Scenario 1. the queue is empty, add to queue
         }
         else{
-            int initial_size_of_loop = queue.size();
+            int initial_size_of_loop = queue.size(); //initial_size_of_loop is made to prevent an infinate loop
             for(int i = 0; i < initial_size_of_loop; i++){
                 Node currentNode = queue.get(i);
                 if (n.getFreq() <= currentNode.getFreq()) {
                     queue.add(i, n);
-                    break;
+                    break; //Scenario 2.  add node to queue where it is less than the next in the queue
                 }
                 if (i+1 == initial_size_of_loop){
-                    queue.add(i+1, n);
+                    queue.add(i+1, n); //Scenario 3. we've reached the end of the list, add to end of queue
                 }
             }
         }
