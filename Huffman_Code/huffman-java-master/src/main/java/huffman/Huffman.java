@@ -1,5 +1,7 @@
 package huffman;
 
+import huffman.tree.Branch;
+import huffman.tree.Leaf;
 import huffman.tree.Node;
 
 import java.util.*;
@@ -27,9 +29,9 @@ public class Huffman {
             for (int i = 0; i < input.length(); i++){
                 char c = input.charAt(i);
                 if (ft.containsKey(c)){
-                    int tempkey = ft.get(c);
+                    int temp_key = ft.get(c);
                     ft.remove(c);
-                    ft.put(c,tempkey+1);
+                    ft.put(c,temp_key+1);
                 } else {
                     ft.put(c,1);
                 }
@@ -55,7 +57,22 @@ public class Huffman {
      * @return          A Huffman tree.
      */
     public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {
-        throw new UnsupportedOperationException("Method not implemented");
+        PQueue HuffmanQueue = new PQueue();
+        for (Map.Entry<Character, Integer> entry : freqTable.entrySet()) {
+            Leaf leaf = new Leaf(entry.getKey(), entry.getValue());
+            HuffmanQueue.enqueue(leaf);
+        }
+        while (HuffmanQueue.size() != 1) {
+            Node Leaf1 = HuffmanQueue.dequeue();
+            Node Leaf2 = HuffmanQueue.dequeue();
+            if (Leaf1.getFreq() > Leaf2.getFreq()) {
+                Branch branch = new Branch(Leaf1.getFreq(), Leaf2, Leaf1);
+            } else {
+                Branch branch = new Branch(Leaf2.getFreq(), Leaf1, Leaf2);
+            }
+        }
+        Node HuffmanTree = HuffmanQueue.dequeue();
+        return HuffmanTree;
     }
 
     /**
