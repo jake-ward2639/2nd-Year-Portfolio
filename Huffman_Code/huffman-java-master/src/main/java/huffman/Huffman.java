@@ -16,7 +16,26 @@ public class Huffman {
      * @return          The frequency table.
      */
     public static Map<Character, Integer> freqTable (String input) {
-        throw new UnsupportedOperationException("Method not implemented");
+        if (input == null) {
+            return null;
+        }
+        if (input.length() == 0) {
+            return null;
+        }
+        else {
+            Map<Character, Integer> ft = new HashMap<>();
+            for (int i = 0; i < input.length(); i++){
+                char c = input.charAt(i);
+                if (ft.containsKey(c)){
+                    int tempkey = ft.get(c);
+                    ft.remove(c);
+                    ft.put(c,tempkey+1);
+                } else {
+                    ft.put(c,1);
+                }
+            }
+            return ft;
+        }
     }
 
     /**
