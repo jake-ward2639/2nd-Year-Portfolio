@@ -25,10 +25,12 @@ public class TestHuffman {
         pq.enqueue(new Leaf('b', 1));
         pq.enqueue(new Leaf('c', 101));
         pq.enqueue(new Leaf('d', -101));
-        assertEquals(pq.size(), 4);
+        pq.enqueue(new Leaf('e', 64));
+        assertEquals(pq.size(), 5);
         assertEquals(pq.dequeue().getFreq(), -101);
         assertEquals(pq.dequeue().getFreq(), 1);
         assertEquals(pq.dequeue().getFreq(), 42);
+        assertEquals(pq.dequeue().getFreq(), 64);
         assertEquals(pq.dequeue().getFreq(), 101);
     }
 

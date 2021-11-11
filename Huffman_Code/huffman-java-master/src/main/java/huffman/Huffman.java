@@ -18,26 +18,21 @@ public class Huffman {
      * @return          The frequency table.
      */
     public static Map<Character, Integer> freqTable (String input) {
-        if (input == null) {
+        if (input == null || input.length() == 0) {
             return null;
         }
-        if (input.length() == 0) {
-            return null;
-        }
-        else {
-            Map<Character, Integer> ft = new HashMap<>();
-            for (int i = 0; i < input.length(); i++){
-                char c = input.charAt(i);
-                if (ft.containsKey(c)){
-                    int temp_key = ft.get(c);
-                    ft.remove(c);
-                    ft.put(c,temp_key+1);
-                } else {
-                    ft.put(c,1);
-                }
+        Map<Character, Integer> ft = new HashMap<>();
+        for (int i = 0; i < input.length(); i++){
+            char c = input.charAt(i);
+            if (ft.containsKey(c)){
+                int temp_key = ft.get(c);
+                ft.remove(c);
+                ft.put(c,temp_key+1);
+            } else {
+                ft.put(c,1);
             }
-            return ft;
         }
+        return ft;
     }
 
     /**
@@ -57,6 +52,9 @@ public class Huffman {
      * @return          A Huffman tree.
      */
     public static Node treeFromFreqTable(Map<Character, Integer> freqTable) {
+        if(freqTable == null){
+            return null;
+        }
         PQueue HuffmanQueue = new PQueue();
         for (Map.Entry<Character, Integer> entry : freqTable.entrySet()) {
             Leaf leaf = new Leaf(entry.getKey(), entry.getValue());
@@ -65,10 +63,15 @@ public class Huffman {
         while (HuffmanQueue.size() != 1) {
             Node Leaf1 = HuffmanQueue.dequeue();
             Node Leaf2 = HuffmanQueue.dequeue();
-            if (Leaf1.getFreq() > Leaf2.getFreq()) {
-                Branch branch = new Branch(Leaf1.getFreq(), Leaf2, Leaf1);
+            if (Leaf1.getFreq() == Leaf2.getFreq()) {
+                Branch branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf2, Leaf1);
+                HuffmanQueue.enqueue(branch);
+            } else if (Leaf1.getFreq() > Leaf2.getFreq()) {
+                Branch branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf2, Leaf1);
+                HuffmanQueue.enqueue(branch);
             } else {
-                Branch branch = new Branch(Leaf2.getFreq(), Leaf1, Leaf2);
+                Branch branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf1, Leaf2);
+                HuffmanQueue.enqueue(branch);
             }
         }
         Node HuffmanTree = HuffmanQueue.dequeue();
@@ -84,7 +87,8 @@ public class Huffman {
      *              representing the path through the tree from the root to the leaf node labelled c.
      */
     public static Map<Character, List<Boolean>> buildCode(Node tree) {
-        throw new UnsupportedOperationException("Method not implemented");
+        ArrayList<Boolean> new_list = new ArrayList();
+        return tree.traverse(new_list);
     }
 
     /**
