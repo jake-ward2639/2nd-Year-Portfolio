@@ -34,7 +34,7 @@ public class Branch extends Node {
      */
     public Map<Character, List<Boolean>> traverse(List<Boolean> list) {
         Map<Character, List<Boolean>> mp = new HashMap<>();
-        if (this.left != null) {
+        if (this.left != null) { //while this isn't necessary in this case, im keeping the code to show my understanding of the conventions.
             ArrayList<Boolean> leftList = new ArrayList(list);
             leftList.add(false);
             mp.putAll(this.left.traverse(leftList));
@@ -42,9 +42,8 @@ public class Branch extends Node {
         if(this.right != null) {
             ArrayList<Boolean> rightList = new ArrayList(list);
             rightList.add(true);
-            mp.putAll(this.right.traverse(rightList)); //may or may not work
+            mp.putAll(this.right.traverse(rightList));
         }
-
         return mp;
     }
 

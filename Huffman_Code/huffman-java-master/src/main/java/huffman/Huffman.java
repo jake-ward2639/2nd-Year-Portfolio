@@ -63,16 +63,13 @@ public class Huffman {
         while (HuffmanQueue.size() != 1) {
             Node Leaf1 = HuffmanQueue.dequeue();
             Node Leaf2 = HuffmanQueue.dequeue();
-            if (Leaf1.getFreq() == Leaf2.getFreq()) {
-                Branch branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf2, Leaf1);
-                HuffmanQueue.enqueue(branch);
-            } else if (Leaf1.getFreq() > Leaf2.getFreq()) {
-                Branch branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf2, Leaf1);
-                HuffmanQueue.enqueue(branch);
+            Branch branch;
+            if (Leaf1.getFreq() == Leaf2.getFreq() || Leaf1.getFreq() > Leaf2.getFreq()) {
+                branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf2, Leaf1);
             } else {
-                Branch branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf1, Leaf2);
-                HuffmanQueue.enqueue(branch);
+                branch = new Branch(Leaf1.getFreq() + Leaf2.getFreq(), Leaf1, Leaf2);
             }
+            HuffmanQueue.enqueue(branch);
         }
         Node HuffmanTree = HuffmanQueue.dequeue();
         return HuffmanTree;
@@ -105,7 +102,19 @@ public class Huffman {
      * @return      The Huffman coding.
      */
     public static HuffmanCoding encode(String input) {
-        throw new UnsupportedOperationException("Method not implemented");
+        Map<Character, Integer> ft = freqTable(input);
+        Node HuffmanTree = treeFromFreqTable(ft);
+        Map<Character, List<Boolean>> fin_map = buildCode(HuffmanTree);
+        List<Boolean> data_list = new ArrayList<>();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            List temp_bool_list = fin_map.get(c);
+            for(int x=0;x<temp_bool_list.size();x++){
+                data_list.add((Boolean) temp_bool_list.get(x));
+            }
+        }
+        System.out.println(data_list);
+        return new HuffmanCoding(fin_map, data_list);
     }
 
     /**
