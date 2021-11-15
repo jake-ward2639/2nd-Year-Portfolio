@@ -38,7 +38,7 @@ public class PQueue {
                 //the size of the loop needed to be declared outside the loop so as not to create an INFINITE loop
             }
         }
-        System.out.println(queue);
+        System.out.println(queue); //the print statement is used to display the trees construction in the console (however it is reversed which caused confusion)
     }
 
     /**
