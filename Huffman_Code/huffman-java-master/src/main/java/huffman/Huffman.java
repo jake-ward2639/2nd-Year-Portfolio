@@ -110,7 +110,7 @@ public class Huffman {
             char c = input.charAt(i);
             List temp_bool_list = fin_map.get(c);
             for(int x=0;x<temp_bool_list.size();x++){
-                data_list.add((Boolean) temp_bool_list.get(x));
+                data_list.add((Boolean) temp_bool_list.get(x));//convert to bool before adding
             }
         }
         System.out.println(data_list);
@@ -140,7 +140,37 @@ public class Huffman {
      * @return      The reconstructed tree.
      */
     public static Node treeFromCode(Map<Character, List<Boolean>> code) {
-        throw new UnsupportedOperationException("Method not implemented");
+        Branch root = new Branch(0,null,null);
+        ArrayList<Character> chars = new ArrayList();
+        for (Map.Entry<Character, List<Boolean>> entry : code.entrySet()) {
+            chars.add(entry.getKey());
+        }
+        for(int c=0;c<chars.size();c++){
+            Branch current_node = root;
+            List bs = code.get(c);
+            for(int b=0;b<bs.size();b++){
+                if(!((Boolean) bs.get(b))){ //simplified if b in bs is == false
+                    if(b == bs.size()){
+                        current_node.setLeft(new Leaf((char) c, 0));
+                    }
+                    else if(current_node.getLeft() == null){
+                        current_node.setLeft(new Branch(0, null, null));
+                    }
+                    current_node = (Branch) current_node.getLeft();
+                }
+                else if ((Boolean) bs.get(b) == true){
+                    if(b == bs.size()){
+                        current_node.setRight(new Leaf((char) c, 0));
+                    }
+                    else if(current_node.getRight() == null){
+                        current_node.setRight(new Branch(0, null, null));
+                    }
+                    current_node = (Branch) current_node.getRight();
+                }
+            }
+            root = current_node;
+        }
+        return root;
     }
 
 
