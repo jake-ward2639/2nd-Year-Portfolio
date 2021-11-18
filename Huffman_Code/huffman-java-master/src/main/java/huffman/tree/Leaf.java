@@ -40,7 +40,7 @@ public class Leaf extends Node {
     public Map<Character, List<Boolean>> traverse(List<Boolean> list) {
         Map<Character, List<Boolean>> new_map = new HashMap<>();
         new_map.put(label, list);
-        return new_map;
+        return new_map; //return label and path used to find label
     }
 
     @Override

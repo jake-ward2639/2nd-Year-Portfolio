@@ -22,14 +22,14 @@ public class Huffman {
             return null;
         }
         Map<Character, Integer> ft = new HashMap<>();
-        for (int i = 0; i < input.length(); i++){
+        for (int i = 0; i < input.length(); i++){ //for each character in input
             char c = input.charAt(i);
-            if (ft.containsKey(c)){
+            if (ft.containsKey(c)){ //if input is already present in freq_table
                 int temp_key = ft.get(c);
                 ft.remove(c);
-                ft.put(c,temp_key+1);
+                ft.put(c,temp_key+1); //remove freq using key and replace with freq++
             } else {
-                ft.put(c,1);
+                ft.put(c,1); //else add new char to freq_table with freq 1
             }
         }
         return ft;
@@ -58,7 +58,7 @@ public class Huffman {
         PQueue HuffmanQueue = new PQueue();
         for (Map.Entry<Character, Integer> entry : freqTable.entrySet()) {
             Leaf leaf = new Leaf(entry.getKey(), entry.getValue());
-            HuffmanQueue.enqueue(leaf);
+            HuffmanQueue.enqueue(leaf); //for every character create a leaf using label key freq value
         }
         while (HuffmanQueue.size() != 1) {
             Node Leaf1 = HuffmanQueue.dequeue();
@@ -71,7 +71,7 @@ public class Huffman {
             }
             HuffmanQueue.enqueue(branch);
         }
-        Node HuffmanTree = HuffmanQueue.dequeue();
+        Node HuffmanTree = HuffmanQueue.dequeue(); //combine leaves into branches until tree remains
         return HuffmanTree;
     }
 
@@ -104,13 +104,13 @@ public class Huffman {
     public static HuffmanCoding encode(String input) {
         Map<Character, Integer> ft = freqTable(input);
         Node HuffmanTree = treeFromFreqTable(ft);
-        Map<Character, List<Boolean>> fin_map = buildCode(HuffmanTree);
+        Map<Character, List<Boolean>> fin_map = buildCode(HuffmanTree);//create map of keys to decode
         List<Boolean> data_list = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            List temp_bool_list = fin_map.get(c);
+            List<Boolean> temp_bool_list = fin_map.get(c);
             for(int x=0;x<temp_bool_list.size();x++){
-                data_list.add((Boolean) temp_bool_list.get(x));//convert to bool before adding
+                data_list.add(temp_bool_list.get(x)); //create the input encoded using huffman encoding
             }
         }
         return new HuffmanCoding(fin_map, data_list);
@@ -145,25 +145,24 @@ public class Huffman {
             chars.add(entry.getKey());
         }
         for(int c=0;c<chars.size();c++){
-            Node current_node = root;
+            Node current_node = root; //current node skips back to root every new char
             List<Boolean> bs = code.get(chars.get(c));
             for(int b=0;b<bs.size();b++){
-                if((bs.get(b) == false)){
+                if((!bs.get(b))){ //if current bool in code for char is true
                     if(b == bs.size()-1){
-                        current_node.setLeft(new Leaf(chars.get(c), 0));
+                        current_node.setLeft(new Leaf(chars.get(c), 0)); //if last bool in code for char create leaf
                     }
                     else if(current_node.getLeft() != null){
-                        current_node = current_node.getLeft();
+                        current_node = current_node.getLeft(); //if left exists traverse left
                     }
                     else {
                         current_node.setLeft(new Branch(0, null, null));
-                        current_node = current_node.getLeft();
+                        current_node = current_node.getLeft(); //if left doesn't exist create new branch and traverse left
                     }
                 }
-                else if (bs.get(b) == true){
+                else if (bs.get(b)){ //reverse logic
                     if(b == bs.size()-1){
                         current_node.setRight(new Leaf(chars.get(c), 0));
-                        current_node = root;
                     }
                     else if(current_node.getRight() != null){
                         current_node = current_node.getRight();
@@ -198,7 +197,7 @@ public class Huffman {
         String result = "";
         for(int b=0;b<data.size();b++){
            Boolean current_bool = data.get(b);
-           if(current_node instanceof Leaf){
+           if(current_node instanceof Leaf){ //if leaf then add label to printed result
                 result = result + ((Leaf) current_node).getLabel();
                 System.out.println("current result " + result);
                 current_node = tree;
