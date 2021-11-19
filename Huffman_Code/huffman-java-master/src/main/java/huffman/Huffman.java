@@ -192,30 +192,24 @@ public class Huffman {
     public static String decode(Map<Character, List<Boolean>> code, List<Boolean> data) {
         Node tree = treeFromCode(code);
         Node current_node = tree;
-        System.out.println(current_node);
-        System.out.println(data);
         String result = "";
         for(int b=0;b<data.size();b++){
            Boolean current_bool = data.get(b);
            if(current_node instanceof Leaf){ //if leaf then add label to printed result
                 result = result + ((Leaf) current_node).getLabel();
-                System.out.println("current result " + result);
                 current_node = tree;
                 b = b-1;
            }
            else if(!current_bool){
                current_node = current_node.getLeft();
-               System.out.println("went left");
            }
            else if(current_bool){
                current_node = current_node.getRight();
-               System.out.println("went right");
            }
            if(b+1 == data.size()){
                result = result + ((Leaf) current_node).getLabel();
            }
         }
-        System.out.println(result);
         return result;
     }
 }

@@ -38,7 +38,6 @@ public class PQueue {
                 //the size of the loop needed to be declared outside the loop so as not to create an INFINITE loop
             }
         }
-        System.out.println(queue);
     }
 
     /**
