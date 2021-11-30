@@ -108,10 +108,7 @@ public class Huffman {
         List<Boolean> data_list = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            List<Boolean> temp_bool_list = fin_map.get(c);
-            for(int x=0;x<temp_bool_list.size();x++){
-                data_list.add(temp_bool_list.get(x)); //create the input encoded using huffman encoding
-            }
+            data_list.addAll(fin_map.get(c));
         }
         return new HuffmanCoding(fin_map, data_list);
     }
@@ -148,9 +145,9 @@ public class Huffman {
             Node current_node = root; //current node skips back to root every new char
             List<Boolean> bs = code.get(chars.get(c));
             for(int b=0;b<bs.size();b++){
-                if((!bs.get(b))){ //if current bool in code for char is true
+                if((!bs.get(b))){ //if current bool in code for char is false
                     if(b == bs.size()-1){
-                        current_node.setLeft(new Leaf(chars.get(c), 0)); //if last bool in code for char create leaf
+                        current_node.setLeft(new Leaf(chars.get(c), 0)); //if last bool in binary code for char create leaf
                     }
                     else if(current_node.getLeft() != null){
                         current_node = current_node.getLeft(); //if left exists traverse left
