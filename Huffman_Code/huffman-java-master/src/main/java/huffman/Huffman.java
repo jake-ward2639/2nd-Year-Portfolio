@@ -136,13 +136,13 @@ public class Huffman {
      * @return      The reconstructed tree.
      */
     public static Node treeFromCode(Map<Character, List<Boolean>> code) {
-        Node root = new Branch(0,null,null);
+        Branch root = new Branch(0,null,null);
         ArrayList<Character> chars = new ArrayList();
         for (Map.Entry<Character, List<Boolean>> entry : code.entrySet()) {
             chars.add(entry.getKey());
         }
         for(int c=0;c<chars.size();c++){
-            Node current_node = root; //current node skips back to root every new char
+            Branch current_node = root; //current node skips back to root every new char
             List<Boolean> bs = code.get(chars.get(c));
             for(int b=0;b<bs.size();b++){
                 if((!bs.get(b))){ //if current bool in code for char is false
@@ -150,11 +150,11 @@ public class Huffman {
                         current_node.setLeft(new Leaf(chars.get(c), 0)); //if last bool in binary code for char create leaf
                     }
                     else if(current_node.getLeft() != null){
-                        current_node = current_node.getLeft(); //if left exists traverse left
+                        current_node = (Branch) current_node.getLeft(); //if left exists traverse left
                     }
                     else {
                         current_node.setLeft(new Branch(0, null, null));
-                        current_node = current_node.getLeft(); //if left doesn't exist create new branch and traverse left
+                        current_node = (Branch) current_node.getLeft(); //if left doesn't exist create new branch and traverse left
                     }
                 }
                 else if (bs.get(b)){ //reverse logic
@@ -162,11 +162,11 @@ public class Huffman {
                         current_node.setRight(new Leaf(chars.get(c), 0));
                     }
                     else if(current_node.getRight() != null){
-                        current_node = current_node.getRight();
+                        current_node = (Branch) current_node.getRight();
                     }
                     else {
                         current_node.setRight(new Branch(0, null, null));
-                        current_node = current_node.getRight();
+                        current_node = (Branch) current_node.getRight();
                     }
                 }
             }
@@ -198,10 +198,12 @@ public class Huffman {
                 b = b-1;
            }
            else if(!current_bool){
-               current_node = current_node.getLeft();
+               Branch current_branch = (Branch) current_node;
+               current_node = current_branch.getLeft();
            }
            else if(current_bool){
-               current_node = current_node.getRight();
+               Branch current_branch = (Branch) current_node;
+               current_node = current_branch.getRight();
            }
            if(b+1 == data.size()){
                result = result + ((Leaf) current_node).getLabel();

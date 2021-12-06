@@ -42,22 +42,4 @@ public class Leaf extends Node {
         new_map.put(label, list);
         return new_map; //return label and path used to find label
     }
-
-    @Override
-    public Node getRight() {
-        return null;
-    }
-
-    @Override
-    public Node getLeft() {
-        return null;
-    }
-
-    @Override
-    public void setLeft(Node left) {
-    }
-
-    @Override
-    public void setRight(Node right) {
-    }
 }

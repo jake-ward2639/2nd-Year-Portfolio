@@ -41,12 +41,4 @@ public abstract class Node {
     public String toString() {
         return TreePrinter.traversePreOrder(this);
     }
-
-    public abstract Node getRight();
-
-    public abstract Node getLeft();
-
-    public abstract void setLeft(Node left);
-
-    public abstract void setRight(Node right);
 }
